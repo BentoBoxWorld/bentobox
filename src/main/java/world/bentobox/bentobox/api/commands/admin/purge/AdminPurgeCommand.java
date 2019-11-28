@@ -45,7 +45,7 @@ public class AdminPurgeCommand extends CompositeCommand implements Listener {
     @Override
     public boolean canExecute(User user, String label, List<String> args) {
         if (inPurge) {
-            user.sendMessage("commands.admin.purge.purge-in-progress");
+            user.sendMessage("commands.admin.purge.purge-in-progress", TextVariables.LABEL, getTopLabel());
             return false;
         }
         if (args.isEmpty()) {

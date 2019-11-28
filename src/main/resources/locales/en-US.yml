@@ -16,33 +16,35 @@ general:
   invalid: "Invalid"
   errors:
     command-cancelled: "&cCommand cancelled."
-    no-permission: "&cYou don't have the permission to execute this command (&7[permission]&c)."
+    no-permission: "&cYou do not have the permission to execute this command (&7[permission]&c)."
     use-in-game: "&cThis command is only available in game."
     no-team: "&cYou do not have a team!"
     no-island: "&cYou do not have an island!"
-    player-has-island: "&cPlayer already has an island!"
-    player-has-no-island: "&cThat player has no island!"
+    player-has-island: "&cThis player already has an island!"
+    player-has-no-island: "&cThis player does not have an island!"
     already-have-island: "&cYou already have an island!"
-    no-safe-location-found: "&cCould not find a safe spot to teleport you to on the island."
+    no-safe-location-found: "&cWe could not find a safe spot to teleport you to."
     not-owner: "&cYou are not the owner of the island!"
-    not-in-team: "&cThat player is not in your team!"
-    offline-player: "&cThat player is offline or doesn't exist."
+    not-in-team: "&cThis player is not in your team!"
+    offline-player: "&cThis player is offline or unknown."
     unknown-player: "&c[name] is an unknown player!"
-    general: "&cThat command is not ready yet - contact admin"
+    general: "&cThis command is not ready yet, please contact an administrator."
     unknown-command: "&cUnknown command. Do &b/[label] help &cfor help."
     wrong-world: "&cYou are not in the right world to do that!"
-    you-must-wait: "&cYou must wait [number]s before you can do that command again."
-    must-be-positive-number: "&c[number] is not a valid positive number."
+    you-must-wait: "&cYou must wait &b[number]&c seconds before you can use this command again."
+    must-be-positive-number: "&b[number]&c is not a valid positive number."
   tips:
-    changing-obsidian-to-lava: "Changing obsidian back into lava. Be careful!"
+    changing-obsidian-to-lava: |
+      &aChanging obsidian back into lava...
+      &cBe careful next time!
 
 commands:
   # Parameters in <> are required, parameters in [] are optional
   help:
-    header: "&7=========== &c[label] help &7==========="
+    header: "&7----------- &c[label] help &7-----------"
     syntax: "&b[usage] &a[parameters]&7: &e[description]"
     syntax-no-parameters: "&b[usage]&7: &e[description]"
-    end: "&7================================="
+    end: "&7---------------------------------"
     parameters: "[command]"
     description: "help command"
     console: "Console"
@@ -63,40 +65,44 @@ commands:
       add:
         description: "adds resets to the player"
         parameters: "<player> <resets>"
-        success: "&aSuccessfully added &b[number] &aresets to &b[name], increasing the total to &b[total]&a resets."
+        success: "&aSuccessfully added &b[number]&a resets to &b[name]&a, increasing the total to &b[total]&a resets."
       remove:
-        description: "removes resets to the player"
+        description: "removes resets from the player"
         parameters: "<player> <resets>"
-        success: "&aSuccessfully removed &b[number] &aresets to &b[name], decreasing the total to &b[total]&a resets."
+        success: "&aSuccessfully removed &b[number]&a resets from &b[name]&a, decreasing the total to &b[total]&a resets."
     purge:
       parameters: "[days]" 
       description: "purge islands abandoned for more than [days]"
-      days-or-more: "Must be at least 1 day or more"     
-      purgable-islands: "Found [number] purgable islands."
-      purge-in-progress: "&cPurging in progress. Use purge stop to cancel"
-      number-error: "&cArgument must be a number of days"
-      confirm: "&dType [label] purge confirm to start purging"  
-      completed: "&aPurging stopped"
-      see-console-for-status: "Purge started. See console for status" 
+      days-or-more: "&cMust be at least &b1&c day or more."
+      purgable-islands: "&aFound &b[number]&a purgable islands."
+      purge-in-progress: |
+        &aPurging in progress.
+        &aUse &b/[label] purge stop &ato cancel.
+      number-error: "&cPlease provide a valid number of days."
+      confirm: "&cType &b/[label] purge confirm &cto start purging."
+      completed: "&aPurge stopped."
+      see-console-for-status: |
+        &aPurge started.
+        &aSee the console for status.
       protect:
-        description: "Toggle island purge protection"
+        description: "toggle island purge protection"
         move-to-island: "&cMove to an island first!"
-        protecting: "&aPurge-protecting island"
-        unprotecting: "&aRemoving purge protection"
+        protecting: "&aProtecting this island from the purge."
+        unprotecting: "&aThis island is no longer protected from the purge."
       stop:
-        description: "Stop a purge in progress"
-        stopping: "Stopping the purge"
-        no-purge-in-progress: "&cNo purge in progress!"
+        description: "stop a purge in progress"
+        stopping: "&aStopping the purge."
+        no-purge-in-progress: "&cThere is no purge in progress!"
       unowned:
-        description: "Purge unowned islands - requires confirmation"
-        unowned-islands: "&dFound [number] islands"
+        description: "purge unowned islands - requires confirmation"
+        unowned-islands: "&aFound &b[number]&a islands."
         
     team:
       add:
         parameters: "<owner> <player>"
         description: "add player to owner's team"
-        name-not-owner: "&c[name] is not the owner."
-        name-has-island: "&c[name] has an island. Unregister or delete them first!"
+        name-not-owner: "&b[name]&c is not the owner of an island."
+        name-has-island: "&b[name]&c already has an island. Unregister or delete them first!"
         success: "&b[name]&a has been added to &b[owner]&a's island."
       disband:
         parameters: "<owner>"

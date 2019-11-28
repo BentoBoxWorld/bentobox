@@ -32,7 +32,7 @@ public class AdminPurgeUnownedCommand extends ConfirmableCommand {
         }
         AdminPurgeCommand parentCommand = ((AdminPurgeCommand)getParent());
         if (parentCommand.isInPurge()) {
-            user.sendMessage("commands.admin.purge.purge-in-progress");
+            user.sendMessage("commands.admin.purge.purge-in-progress", TextVariables.LABEL, getTopLabel());
             return false;
         }
         Set<String> unowned = getUnownedIslands();
