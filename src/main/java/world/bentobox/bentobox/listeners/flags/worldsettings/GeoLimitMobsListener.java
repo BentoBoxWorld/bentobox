@@ -8,9 +8,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import world.bentobox.bentobox.api.events.BentoBoxReadyEvent;
@@ -46,10 +47,23 @@ public class GeoLimitMobsListener extends FlagListener {
      * @param e - event
      */
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onMobSpawn(CreatureSpawnEvent e) {
+    public void onMobSpawn(EntitySpawnEvent e) {
         if (getIWM().inWorld(e.getLocation())
                 && getIWM().getGeoLimitSettings(e.getLocation().getWorld()).contains(e.getEntityType().name())) {
             getIslands().getIslandAt(e.getLocation()).ifPresent(i -> mobSpawnTracker.put(e.getEntity(), i));
+        }
+    }
+
+    /**
+     * Track where a vehicle was created. This will determine its allowable movement zone.
+     * @param e - event
+     */
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onVehicleSpawn(VehicleCreateEvent e) {
+        Entity entity = e.getVehicle();
+        if (getIWM().inWorld(entity.getLocation())
+                && getIWM().getGeoLimitSettings(entity.getLocation().getWorld()).contains(entity.getType().name())) {
+            getIslands().getIslandAt(entity.getLocation()).ifPresent(i -> mobSpawnTracker.put(entity, i));
         }
     }
 

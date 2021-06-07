@@ -34,11 +34,10 @@ import world.bentobox.bentobox.util.Util;
 public class GeoMobLimitTab implements Tab, ClickHandler {
 
     /**
-     * A list of all living entity types, minus some
+     * A list of all entity types, minus some
      */
     private static final List<EntityType> LIVING_ENTITY_TYPES = Collections.unmodifiableList(Arrays.stream(EntityType.values())
-            .filter(EntityType::isAlive)
-            .filter(t -> !(t.equals(EntityType.PLAYER) || t.equals(EntityType.GIANT) || t.equals(EntityType.ARMOR_STAND)))
+            .filter(t -> !(t.equals(EntityType.PLAYER) || t.equals(EntityType.GIANT) || t.equals(EntityType.AREA_EFFECT_CLOUD)))
             .sorted(Comparator.comparing(EntityType::name))
             .collect(Collectors.toList()));
 
