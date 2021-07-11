@@ -393,6 +393,16 @@ public abstract class Addon {
     public IslandsManager getIslands() {
         return getPlugin().getIslands();
     }
+    
+    /**
+     * Get Islands Manager
+     * @return Islands manager
+     * @see #getIslands()
+     * @since 1.17.1
+     */
+    public IslandsManager getIslandsManager() {
+        return getPlugin().getIslandsManager();
+    }
 
     /**
      * Get the Addon By Name
