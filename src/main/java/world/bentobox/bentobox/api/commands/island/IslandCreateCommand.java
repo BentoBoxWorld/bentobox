@@ -11,6 +11,7 @@ import world.bentobox.bentobox.api.user.User;
 import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.BlueprintsManager;
 import world.bentobox.bentobox.managers.island.NewIsland;
+import world.bentobox.bentobox.managers.island.PregenNewIslandLocationStrategy;
 import world.bentobox.bentobox.panels.IslandCreationPanel;
 
 /**
@@ -93,6 +94,7 @@ public class IslandCreateCommand extends CompositeCommand {
             .addon(getAddon())
             .reason(Reason.CREATE)
             .name(name)
+            .locationStrategy(new PregenNewIslandLocationStrategy())
             .build();
         } catch (IOException e) {
             getPlugin().logError("Could not create island for player. " + e.getMessage());

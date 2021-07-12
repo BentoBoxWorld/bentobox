@@ -16,6 +16,7 @@ import world.bentobox.bentobox.database.objects.Island;
 import world.bentobox.bentobox.managers.BlueprintsManager;
 import world.bentobox.bentobox.managers.island.NewIsland;
 import world.bentobox.bentobox.managers.island.NewIsland.Builder;
+import world.bentobox.bentobox.managers.island.PregenNewIslandLocationStrategy;
 import world.bentobox.bentobox.panels.IslandCreationPanel;
 
 /**
@@ -145,6 +146,7 @@ public class IslandResetCommand extends ConfirmableCommand {
                     .reason(Reason.RESET)
                     .addon(getAddon())
                     .oldIsland(oldIsland)
+                    .locationStrategy(new PregenNewIslandLocationStrategy())
                     .name(name);
             if (noPaste) builder.noPaste();
             builder.build();
