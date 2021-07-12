@@ -91,23 +91,39 @@ public class BlueprintClipboardManager {
      * @throws IOException exception if there's an issue loading or unzipping
      */
     public Blueprint loadBlueprint(String fileName) throws IOException {
+        File noZipFile = new File(blueprintFolder, BlueprintsManager.sanitizeFileName(fileName) + BlueprintsManager.UNCOMPRESSED_BLUEPRINT_SUFFIX);
+        if (noZipFile.exists()) {
+            return loadUncompressedBlueprint(BlueprintsManager.sanitizeFileName(fileName) + BlueprintsManager.UNCOMPRESSED_BLUEPRINT_SUFFIX, false);
+        }
         File zipFile = new File(blueprintFolder, BlueprintsManager.sanitizeFileName(fileName) + BlueprintsManager.BLUEPRINT_SUFFIX);
         if (!zipFile.exists()) {
             plugin.logError(LOAD_ERROR + zipFile.getName());
             throw new IOException(LOAD_ERROR + zipFile.getName());
         }
         unzip(zipFile.getAbsolutePath());
-        File file = new File(blueprintFolder, BlueprintsManager.sanitizeFileName(fileName));
+
+        return loadUncompressedBlueprint(BlueprintsManager.sanitizeFileName(fileName), true);
+    }
+
+    /**
+     * Load an uncompressed blueprint file (JSON)
+     * @param fileName - file name of the uncompressed file
+     * @param remove - true if the file is temporary and needs removing after use
+     * @return blueprint or null if nothing loaded
+     * @throws IOException - if there's an error loading
+     */
+    private Blueprint loadUncompressedBlueprint(String fileName, boolean remove) throws IOException {
+        File file = new File(blueprintFolder, fileName);
         if (!file.exists()) {
             plugin.logError(LOAD_ERROR + file.getName());
-            throw new IOException(LOAD_ERROR + file.getName() + " temp file");
+            throw new IOException(LOAD_ERROR + file.getName() + " uncompressed blueprint file");
         }
         Blueprint bp;
         try (FileReader fr = new FileReader(file)) {
             bp = gson.fromJson(fr, Blueprint.class);
         } catch (Exception e) {
-            plugin.logError("Blueprint has JSON error: " + zipFile.getName());
-            throw new IOException("Blueprint has JSON error: " + zipFile.getName());
+            plugin.logError("Blueprint has JSON error: " + fileName);
+            throw new IOException("Blueprint has JSON error: " + fileName);
         }
         Files.delete(file.toPath());
         // Bedrock check and set

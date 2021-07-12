@@ -61,6 +61,7 @@ public class BlueprintsManager {
 
     public static final @NonNull String FOLDER_NAME = "blueprints";
     private static final String FOR = "' for ";
+    public static final String UNCOMPRESSED_BLUEPRINT_SUFFIX = ".blj";
 
     /**
      * Map of blueprint bundles to game mode addon.
@@ -296,7 +297,8 @@ public class BlueprintsManager {
             plugin.logError("There is no blueprint folder for addon " + addon.getDescription().getName());
             bpf.mkdirs();
         }
-        File[] bps = bpf.listFiles((dir, name) -> name.toLowerCase(Locale.ENGLISH).endsWith(BLUEPRINT_SUFFIX));
+        File[] bps = bpf.listFiles((dir, name) -> name.toLowerCase(Locale.ENGLISH).endsWith(BLUEPRINT_SUFFIX) 
+                || name.toLowerCase(Locale.ENGLISH).endsWith(UNCOMPRESSED_BLUEPRINT_SUFFIX));
         if (bps == null || bps.length == 0) {
             plugin.logError("No blueprints found for " + addon.getDescription().getName());
             return;

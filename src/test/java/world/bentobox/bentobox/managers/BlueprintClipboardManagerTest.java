@@ -233,7 +233,7 @@ public class BlueprintClipboardManagerTest {
         } catch (Exception e) {
             assertTrue(e instanceof IOException);
         } finally {
-            verify(plugin).logError("Blueprint has JSON error: blueprint.blu");
+            verify(plugin).logError("Blueprint has JSON error: blueprint");
         }
     }
 
@@ -283,6 +283,27 @@ public class BlueprintClipboardManagerTest {
     }
 
     /**
+     * Test method for {@link world.bentobox.bentobox.managers.BlueprintClipboardManager#loadBlueprint(java.lang.String)}.
+     * @throws IOException
+     */
+    @Test
+    public void testLoadUncompressedBlueprint() throws IOException {
+        blueprintFolder.mkdirs();
+        // Make a blueprint file
+        File configFile = new File(blueprintFolder, BLUEPRINT + ".blj");
+        byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+        Files.write(configFile.toPath(), bytes, StandardOpenOption.CREATE);
+        BlueprintClipboardManager bcm = new BlueprintClipboardManager(plugin, blueprintFolder);
+        Blueprint bp = bcm.loadBlueprint(BLUEPRINT);
+        assertEquals(-2, bp.getBedrock().getBlockX());
+        assertEquals(-16, bp.getBedrock().getBlockY());
+        assertEquals(-1, bp.getBedrock().getBlockZ());
+        assertTrue(bp.getAttached().isEmpty());
+        assertTrue(bp.getEntities().isEmpty());
+        assertEquals(2, bp.getBlocks().size());
+    }
+
+    /**
      * Test method for {@link world.bentobox.bentobox.managers.BlueprintClipboardManager#load(java.lang.String)}.
      * @throws IOException
      */
@@ -319,6 +340,23 @@ public class BlueprintClipboardManagerTest {
         Files.write(configFile.toPath(), bytes, StandardOpenOption.CREATE);
         // Zip it
         zip(configFile);
+        BlueprintClipboardManager bcm = new BlueprintClipboardManager(plugin, blueprintFolder);
+        User user = mock(User.class);
+        assertTrue(bcm.load(user, BLUEPRINT));
+        verify(user).sendMessage("general.success");
+    }
+
+    /**
+     * Test method for {@link world.bentobox.bentobox.managers.BlueprintClipboardManager#load(world.bentobox.bentobox.api.user.User, java.lang.String)}.
+     * @throws IOException
+     */
+    @Test
+    public void testLoadUncompressedUserString() throws IOException {
+        blueprintFolder.mkdirs();
+        // Make a blueprint file
+        File configFile = new File(blueprintFolder, BLUEPRINT + ".blj");
+        byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+        Files.write(configFile.toPath(), bytes, StandardOpenOption.CREATE);
         BlueprintClipboardManager bcm = new BlueprintClipboardManager(plugin, blueprintFolder);
         User user = mock(User.class);
         assertTrue(bcm.load(user, BLUEPRINT));
